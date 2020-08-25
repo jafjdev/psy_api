@@ -3,18 +3,35 @@ const buildResponse = require('../utils/response/Response');
 const service = require('./user.service');
 const {sequelize} = require('../../db/db');
 const User = require('./model/User');
+const UserDetail = require('./model/detail/UserDetail');
+const http = require('http-status-codes');
 
 const register = async (req, res) => {
     try {
-        const {firstName, lastName, birthday} = req.body;
+        const {email, password, userDetail: userDetail} = req.body;
+        console.log(req.body);
         const user = await User.create({
-            firstName: firstName,
-            lastName: lastName,
-            birthday: new Date(birthday.year, birthday.month, birthday.day)//año, mes, fecha
-        });
-        res.status(200).send(user);
+                email: email,
+                password: password,
+                userDetail: {
+                    firstName: userDetail.firstName,
+                    lastName: userDetail.lastName,
+                    birthday: new Date(userDetail.birthday.year, userDetail.birthday.month, userDetail.birthday.day),
+                    age: userDetail.age,
+                    gender: userDetail.gender,
+                    religion: userDetail.religion,
+                    occupation: userDetail.occupation,
+                    educationLevel: userDetail.educationLevel,
+                }
+            },
+            {
+                include: [UserDetail],
+            }
+        );
+        res.status(http.OK).send(user);
     } catch (error) {
-        res.status(500).send(error);
+        console.log(error);
+        res.status(http.OK).send(error);
     }
 };
 

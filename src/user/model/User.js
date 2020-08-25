@@ -1,28 +1,26 @@
 const {DataTypes} = require('sequelize');
 const {sequelize} = require('../../../db/db');
+const UserDetail = require('./detail/UserDetail');
 
 const User = sequelize.define('User', {
     // Model attributes are defined here
-    id: {
+    uuid: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
+        allowNull: false
+    },
+    email: {
+        type: DataTypes.STRING,
         allowNull: false,
-        primaryKey: true
+        required: true
     },
-    firstName: {
+    password: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    lastName: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    birthday: {
-        type: DataTypes.DATE,
-        allowNull: false
-    }
 }, {
 // Other model options go here
 });
 
-module.exports = User;
+User.hasOne(UserDetail, {foreignKey: 'userId'});
+module.exports = User, UserDetail;
