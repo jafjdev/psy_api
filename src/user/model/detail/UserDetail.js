@@ -1,9 +1,7 @@
 const {DataTypes} = require('sequelize');
 const {sequelize} = require('../../../../db/db');
-const User = require('../User');
 
 const UserDetail = sequelize.define('UserDetail', {
-    // Model attributes are defined here
     firstName: {
         type: DataTypes.STRING,
         allowNull: false,
