@@ -1,22 +1,39 @@
 # PSY_API
 
-En desarrollo, API para realizar la conexion de los 
-dispositivos moviles y aplicación web para llevar el 
-control de los pacientes.
+In development, API that will handle the connection
+between mobile devices and web application.
 
-Este sistema contara con 3 modulos diferentes: 
+**This system will have 3 modules:** 
 
-1. Front-End
-2. API (Actualmente)
-3. Inteligencia Artificial.
+1. Front-End 
+2. API (THIS REPO)
+3. Machine Learning (Built In Python).
 
 # REQUERIMENTS
 
 * NodeJS
 * An internet connection to run `npm install` :D
+* PostgreSQL 
+
+# LIBRARIES 
+
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "http-status-codes": "^2.1.2",
+    "nodemon": "^2.0.4",
+    "pg": "^8.3.2",
+    "sequelize": "^6.3.4"
 
 # RUN
 
 * `npm install`.
 
 * `npm start`.
+
+# INFO
+
+More info will be published soon, contact me: josejecr97@gmail.com or jafjdev@gmail.com
+
+## AUTHOR.
+
+  * **Jose Cedeno** - [Jafjdev](https://github.com/jafjdev/)
