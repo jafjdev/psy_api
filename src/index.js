@@ -1,6 +1,6 @@
 const app = require('./app');
 const PORT = 3000;
-const sequelize = require('../db/index');
+const sequelize = require('../sequelize/index');
 
 app.listen(PORT, () => {
     sequelize.sync({force: false}).then(() => { //improve or change with migrations
