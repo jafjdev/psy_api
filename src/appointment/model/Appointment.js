@@ -11,7 +11,8 @@ const Appointment = sequelize.define('Appointment', {
     date: {
         type: DataTypes.STRING,
         allowNull: false,
-        required: true
+        required: true,
+        unique: true //date will always be different, they cant collide.
     },
     type: {
         type: DataTypes.STRING,
