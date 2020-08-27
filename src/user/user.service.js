@@ -1,23 +1,24 @@
-const models = require('../../sequelize').models;
+const {models} = require('../../sequelize');
 const sequelize = require('../../sequelize');
 const utils = require('../utils/utils');
 
 const createUser = async (email, password, userDetail) => {
     try {
         return sequelize.transaction(async (t) => models.user.create({
-            email: email,
-            password: password,
-            userDetail: {
-                firstName: userDetail.firstName,
-                lastName: userDetail.lastName,
-                birthday: new Date(userDetail.birthday.year, userDetail.birthday.month, userDetail.birthday.day),
-                age: userDetail.age,
-                gender: userDetail.gender,
-                religion: userDetail.religion,
-                occupation: userDetail.occupation,
-                educationLevel: userDetail.educationLevel,
-            }
-        }, {include: models.userDetail, t}));
+                email: email,
+                password: password,
+                userDetail: {
+                    firstName: userDetail.firstName,
+                    lastName: userDetail.lastName,
+                    birthday: new Date(userDetail.birthday.year, userDetail.birthday.month, userDetail.birthday.day),
+                    age: userDetail.age,
+                    gender: userDetail.gender,
+                    religion: userDetail.religion,
+                    occupation: userDetail.occupation,
+                    educationLevel: userDetail.educationLevel,
+                }
+            },
+            {include: models.userDetail, t}));
     } catch (error) {
         throw error;
     }
