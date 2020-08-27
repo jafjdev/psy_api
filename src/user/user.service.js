@@ -1,19 +1,13 @@
-const User = require('./model/User');
-const UserDetail = require('./model/detail/UserDetail');
-const {sequelize} = require('../../db/db');
+const models = require('../../db').models;
+const sequelize = require('../../db');
 const utils = require('../utils/utils');
 
 const createUser = async (email, password, userDetail) => {
-    const transaction = await sequelize.transaction();
     try {
-        const user = await User.create({
-                email: email,
-                password: password,
-            },
-            {transaction: transaction}
-        );
-
-        const detail = await UserDetail.create({
+        return sequelize.transaction(async (t) => models.user.create({
+            email: email,
+            password: password,
+            userDetail: {
                 firstName: userDetail.firstName,
                 lastName: userDetail.lastName,
                 birthday: new Date(userDetail.birthday.year, userDetail.birthday.month, userDetail.birthday.day),
@@ -22,12 +16,9 @@ const createUser = async (email, password, userDetail) => {
                 religion: userDetail.religion,
                 occupation: userDetail.occupation,
                 educationLevel: userDetail.educationLevel,
-            },
-            {transaction: transaction}
-        );
-        await transaction.commit();
+            }
+        }, {include: models.userDetail, t}));
     } catch (error) {
-        await transaction.rollback();
         throw error;
     }
 };
@@ -36,9 +27,10 @@ const createUser = async (email, password, userDetail) => {
 const getUsers = async (page, size) => {
     const {limit, offset} = utils.getPagination(page, size);
     try {
-        const users = User.findAndCountAll({
+        const users = models.user.findAndCountAll({
+                include: models.userDetail,
                 limit,
-                offset
+                offset,
             },
         );
 
