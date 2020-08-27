@@ -1,23 +1,19 @@
 const User = require('./model/User');
 const UserDetail = require('./model/detail/UserDetail');
 const {sequelize} = require('../../db/db');
+const utils = require('../utils/utils');
 
 const createUser = async (email, password, userDetail) => {
     const transaction = await sequelize.transaction();
-
     try {
-        const user = await User.create(
-            {
+        const user = await User.create({
                 email: email,
                 password: password,
             },
-            {
-                transaction: transaction
-            }
+            {transaction: transaction}
         );
 
-        const detail = await UserDetail.create(
-            {
+        const detail = await UserDetail.create({
                 firstName: userDetail.firstName,
                 lastName: userDetail.lastName,
                 birthday: new Date(userDetail.birthday.year, userDetail.birthday.month, userDetail.birthday.day),
@@ -27,18 +23,48 @@ const createUser = async (email, password, userDetail) => {
                 occupation: userDetail.occupation,
                 educationLevel: userDetail.educationLevel,
             },
-            {
-                transaction: transaction
-            }
+            {transaction: transaction}
         );
         await transaction.commit();
     } catch (error) {
         await transaction.rollback();
         throw error;
     }
+};
 
+
+const getUsers = async (page, size) => {
+    const {limit, offset} = utils.getPagination(page, size);
+    try {
+        const users = User.findAndCountAll({
+                limit,
+                offset
+            },
+        );
+
+        return users;
+    } catch (error) {
+        throw (error);
+    }
+};
+
+const getUserByUUID = async uuid => {
+    try {
+        const user = User.findOne(
+            {
+                where: {uuid: uuid}
+            }
+        );
+        return user;
+
+    } catch (error) {
+
+        throw error;
+    }
 };
 
 module.exports = {
-    createUser
+    createUser,
+    getUsers,
+    getUserByUUID
 };
