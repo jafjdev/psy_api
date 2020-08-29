@@ -6,6 +6,7 @@ const {OK, INTERNAL_SERVER_ERROR, CREATED, CONFLICT} = require('http-status-code
 const register = async (req, res) => {
     const {email, password, userDetail} = req.body;
     try {
+        validator.CreateUserValidator(email,password,userDetail);
         const user = await service.createUser(email, password, userDetail);
         res.status(CREATED).send(user);
 
