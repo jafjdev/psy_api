@@ -36,6 +36,27 @@ const getUsers = async (page, size) => {
     }
 };
 
+const updateUser = async user => {
+    const dbUser = await getUserByID(user.id);
+    try {
+        return sequelize.transaction(async (t) =>
+            dbUser.update(
+                {
+                    ...user
+                }, {include: models.userDetail, t}));
+    } catch (error) {
+        throw error;
+    }
+
+
+};
+const getUserByID = async id => {
+    try {
+        return User.findOne({where: {id: id}})
+    } catch (error) {
+        throw error;
+    }
+};
 const getUserByUUID = async uuid => {
     try {
         return User.findOne({where: {uuid: uuid}});
@@ -47,5 +68,7 @@ const getUserByUUID = async uuid => {
 module.exports = {
     createUser,
     getUsers,
-    getUserByID
+    getUserByID,
+    updateUser,
+    getUserByUUID
 };

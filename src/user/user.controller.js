@@ -6,30 +6,65 @@ const {OK, INTERNAL_SERVER_ERROR, CREATED, CONFLICT} = require('http-status-code
 const register = async (req, res) => {
     const {email, password, userDetail} = req.body;
     try {
-        validator.CreateUserValidator(email,password,userDetail);
+        validator.CreateUserValidator(email, password, userDetail);
+
         const user = await service.createUser(email, password, userDetail);
+
         res.status(CREATED).send(user);
 
     } catch (error) {
-        console.log(error);
+
         res.status(CONFLICT).send(error);
+
     }
 };
 
 const getAll = async (req, res) => {
     const {page, size} = req.query;
+
     try {
+
         const userList = await service.getUsers(page, size);
+
         res.status(OK).send(userList);
+
     } catch (error) {
-        console.log(error);
+
         res.status(INTERNAL_SERVER_ERROR).send(error);
+
     }
 };
 
 const getById = async (req, res) => {
+    const {id} = req.query;
+
+    try {
+
+        const user = await service.getUserByID(id);
+
+        res.status(OK).send(user);
+
+    } catch (error) {
+
+        res.status(INTERNAL_SERVER_ERROR).send(error);
+
+    }
 };
 
+const updateUser = async (req, res) => {
+
+    const updatedUser = req.body;
+
+    try {
+        const user = await service.updateUser(updatedUser);
+        res.status(OK).send(user);
+
+    } catch (error) {
+
+        res.status(INTERNAL_SERVER_ERROR).send(error);
+
+    }
+};
 const deactivate = async (req, res) => {
 
 };
