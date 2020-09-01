@@ -52,14 +52,15 @@ const updateUser = async user => {
 };
 const getUserByID = async id => {
     try {
-        return User.findOne({where: {id: id}})
+        return models.user.findOne({where: {id: id}, include: models.userDetail})
     } catch (error) {
         throw error;
     }
 };
+
 const getUserByUUID = async uuid => {
     try {
-        return User.findOne({where: {uuid: uuid}});
+        return models.user.findOne({where: {uuid: uuid}});
     } catch (error) {
         throw error;
     }
