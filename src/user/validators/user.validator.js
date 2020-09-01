@@ -3,23 +3,33 @@ const CustomError = require('../../utils/error/CustomError');
 
 const CreateUserValidator = (email, password, userDetail) => {
 
-    if (isUndefined(email) || isUndefined(password) || isUndefined(userDetail)) {
+    if (isUndefined(password)) {
 
-        throw new CustomError("Es necesario enviar todos los campos", 400);
-
-    }
-
-    if (isEmpty(email) || isEmpty(password)) {
-
-        throw new CustomError("El correo y contraseña no deben ser vacios", 400);
+        throw new CustomError("Contraseña es un campo requerido", 400);
 
     }
 
-    ValidateUserDetail(userDetail);
+    if (isEmpty(password)) {
 
+        throw new CustomError("Contraseña no debe ser vacios", 400);
+
+    }
+    UpdateUserValidator(email, userDetail)
 };
 
-const ValidateUserDetail = detail => {
+const UpdateUserValidator = (id, email, userDetail) => { //validates everything but password
+    if (isUndefined(id) || isUndefined(email) || isUndefined(userDetail)) {
+        throw new CustomError("Es necesario enviar todos los campos", 400);
+    }
+
+    if (isEmpty(email) || isEmpty(id.toString())) {
+        throw new CustomError("El correo no debe ser vacios", 400);
+    }
+
+    UserDetailValidator(userDetail);
+};
+
+const UserDetailValidator = detail => {
     if (isUndefined(detail.firstName) || isUndefined(detail.lastName) || isUndefined(detail.birthday)
         || isUndefined(detail.birthday.day) || isUndefined(detail.birthday.month)
         || isUndefined(detail.birthday.year) || isUndefined(detail.age) || isUndefined(detail.religion)
@@ -43,13 +53,9 @@ const ValidateUserDetail = detail => {
 const GetUserByUUIDValidator = body => {
 };
 
-const UpdateUserValidator = body => {
-
-};
-
 module.exports = {
     CreateUserValidator,
-    ValidateUserDetail,
+    UserDetailValidator,
     GetUserByUUIDValidator,
     UpdateUserValidator
 };

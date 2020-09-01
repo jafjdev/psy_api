@@ -15,7 +15,6 @@ const register = async (req, res) => {
     } catch (error) {
 
         res.status(CONFLICT).send(error);
-
     }
 };
 
@@ -47,9 +46,10 @@ const getById = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-    const updatedUser = req.body;
-
+    const {id, email, userDetail} = req.body;
     try {
+        validator.UpdateUserValidator(id, email, userDetail);
+
         const user = await service.updateUser(updatedUser);
         res.status(OK).send(user);
 
@@ -57,7 +57,6 @@ const updateUser = async (req, res) => {
         console.log(error);
 
         res.status(INTERNAL_SERVER_ERROR).send(error);
-
     }
 };
 const deactivate = async (req, res) => {
