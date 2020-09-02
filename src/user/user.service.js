@@ -43,6 +43,14 @@ const updateUser = async (id, updatedEmail, updatedDetail) => {
         throw error;
     }
 };
+const deleteUser = async id => {
+    try {
+        return models.user.destroy({where: {id: id}});
+    } catch (error) {
+        throw error;
+    }
+
+};
 
 const getUserByID = async id => {
     try {
@@ -65,5 +73,6 @@ module.exports = {
     getUsers,
     getUserByID,
     updateUser,
+    deleteUser,
     getUserByUUID
 };

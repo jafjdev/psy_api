@@ -8,7 +8,7 @@ const register = async (req, res) => {
     const {date, type} = req.body;
 
     try {
-        validator.validateCreateAppointment(date, type);
+        validator.validateMakeAppointment(date, type);
 
         const appointment = await service.makeAppointment(date, type);
 

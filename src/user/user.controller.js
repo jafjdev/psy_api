@@ -50,16 +50,26 @@ const updateUser = async (req, res) => {
     try {
         validator.UpdateUserValidator(id, email, userDetail);
 
-        const user = await service.updateUser(updatedUser);
+        const user = await service.updateUser(id, email, userDetail);
+
         res.status(OK).send(user);
 
     } catch (error) {
-        console.log(error);
 
         res.status(INTERNAL_SERVER_ERROR).send(error);
+
     }
 };
-const deactivate = async (req, res) => {
+
+
+const deleteUser = async (req, res) => {
+    const {id} = req.body;
+    try {
+        await service.deleteUser(id);
+        res.status(OK).send();
+    } catch (error) {
+        res.status(INTERNAL_SERVER_ERROR).send(error);
+    }
 
 };
 
@@ -67,6 +77,6 @@ module.exports = {
     register,
     getAll,
     getById,
-    deactivate,
+    deleteUser,
     updateUser
 };

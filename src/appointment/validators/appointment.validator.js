@@ -16,5 +16,5 @@ const validateMakeAppointment = (date, type) => {
     }
 };
 module.exports = {
-    validateCreateAppointment: validateMakeAppointment
+    validateMakeAppointment
 };
